@@ -1,0 +1,21 @@
+/* Competitive Torpedoes - custom styles */
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&display=swap');
+
+[data-testid="stApp"] {
+    font-family: 'DM Sans', -apple-system, sans-serif;
+}
+
+[data-testid="stHeader"] {
+    background: transparent;
+}
+
+.stProgress > div > div {
+    background-color: #43D9A2;
+}
+
+[data-testid="stExpander"] {
+    border: 1px solid #e8e8ef;
+    border-radius: 12px;
+}
+
+footer { visibility: hidden; }
