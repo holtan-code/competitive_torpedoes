@@ -1,21 +1,124 @@
 /* Competitive Torpedoes - custom styles */
 @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&display=swap');
 
-[data-testid="stApp"] {
+/* ── Global font ─────────────────────────────────────────── */
+[data-testid="stApp"],
+[data-testid="stApp"] * {
     font-family: 'DM Sans', -apple-system, sans-serif;
 }
 
-[data-testid="stHeader"] {
-    background: transparent;
+/* ── Hide Streamlit chrome ───────────────────────────────── */
+#MainMenu                    { visibility: hidden; }
+[data-testid="stToolbar"]    { display: none; }
+[data-testid="stHeader"]     { background: transparent; height: 0; }
+footer                       { visibility: hidden; }
+[data-testid="stDecoration"] { display: none; }
+
+/* ── Page background ─────────────────────────────────────── */
+[data-testid="stApp"],
+[data-testid="stMain"],
+[data-testid="stMainBlockContainer"] {
+    background: #ffffff !important;
 }
 
+/* ── Remove default top padding so header sits flush ─────── */
+[data-testid="stMainBlockContainer"] {
+    padding-top: 0 !important;
+}
+
+/* ── Controls card (border container override) ───────────── */
+[data-testid="stVerticalBlockBorderWrapper"],
+[data-testid="stVerticalBlockBorderWrapper"] > div {
+    background: #fff !important;
+    border-radius: 12px !important;
+    border: 1px solid #e0e0e8 !important;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.04) !important;
+    padding: 4px 16px !important;
+}
+
+/* ── Selectbox pill styling ──────────────────────────────── */
+[data-testid="stSelectbox"] > div > div {
+    background: #f5f5f8 !important;
+    border-radius: 8px !important;
+    font-size: 14px !important;
+    font-weight: 600 !important;
+    border-color: #e0e0e8 !important;
+}
+
+/* ── Chart cards ─────────────────────────────────────────── */
+[data-testid="stPlotlyChart"] {
+    background: #fff;
+    border-radius: 12px;
+    border: 1px solid #e8e8ef;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.04);
+    overflow: hidden;
+    padding: 4px 4px 0;
+}
+
+/* ── Progress bar color ──────────────────────────────────── */
 .stProgress > div > div {
     background-color: #43D9A2;
 }
 
+/* ── Expander (AI analyze) card styling ──────────────────── */
 [data-testid="stExpander"] {
-    border: 1px solid #e8e8ef;
-    border-radius: 12px;
+    background: #fff !important;
+    border: 1px solid #e8e8ef !important;
+    border-radius: 12px !important;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.04) !important;
 }
 
-footer { visibility: hidden; }
+/* Remove browser-default overline/underline on <summary> */
+[data-testid="stExpander"] summary,
+[data-testid="stExpander"] summary *,
+[data-testid="stExpander"] summary p,
+[data-testid="stExpander"] summary span {
+    font-size: 13px !important;
+    font-weight: 600 !important;
+    color: #555 !important;
+    text-decoration: none !important;
+    text-decoration-line: none !important;
+    -webkit-text-decoration: none !important;
+}
+
+/* Also strip any decoration from rendered AI markdown text */
+[data-testid="stExpander"] [data-testid="stMarkdownContainer"] p,
+[data-testid="stExpander"] [data-testid="stMarkdownContainer"] li {
+    text-decoration: none !important;
+}
+
+/* ── Fix expander label text bleed from previous elements ── */
+[data-testid="stExpander"] {
+    overflow: hidden;
+    position: relative;
+    z-index: 1;
+}
+
+[data-testid="stExpander"] summary {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+/* Clip markdown containers (expander siblings only, not controls) */
+.stMarkdown {
+    overflow: visible;
+}
+
+/* ── Section dividers ────────────────────────────────────── */
+hr {
+    border-color: #e0e0e8 !important;
+    margin: 24px 0 !important;
+}
+
+/* ── Column vertical alignment in controls ───────────────── */
+[data-testid="stVerticalBlockBorderWrapper"] [data-testid="stHorizontalBlock"] {
+    align-items: center;
+}
+
+/* ── Prevent markdown containers from clipping text ─────── */
+[data-testid="stMarkdownContainer"] { overflow: visible !important; }
+
+/* ── Selectbox: hide label, constrain width ──────────────── */
+[data-testid="stSelectbox"] label { display: none; }
+[data-testid="stSelectbox"] { max-width: 300px; }
