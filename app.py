@@ -2,7 +2,7 @@
 import streamlit as st
 from db import get_all_platforms
 from components.header import render_header
-from components import overall, search, reputation, social
+from components import overall, search, reputation, social, brands
 
 st.set_page_config(
     page_title="Local Visibility Index",
@@ -36,6 +36,10 @@ st.markdown('<div style="height:16px"></div>', unsafe_allow_html=True)
 st.divider()
 
 social.render(soci, comp, selected_competitor)
+st.markdown('<div style="height:16px"></div>', unsafe_allow_html=True)
+st.divider()
+
+brands.render(selected_competitor)
 
 st.divider()
 st.caption(

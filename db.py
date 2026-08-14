@@ -128,6 +128,27 @@ def get_platform_data(platform: str, top_n: int = TOP_N) -> dict:
 
 
 @st.cache_data(ttl=3600)
+def get_platform_brands(platform: str, top_n: int = TOP_N) -> list:
+    """Return the top-N brand names (by LVI score) used in this platform's averages."""
+    engine = get_engine()
+    if engine is None:
+        return []
+
+    with engine.connect() as conn:
+        rows = conn.execute(text("""
+            SELECT s.brandname
+            FROM lvi_2026_brand_scores s
+            JOIN lvi_2026_brand_platform_list p ON s.brand_id = p.brandid
+            WHERE (p.platform_a = :platform OR p.platform_b = :platform)
+              AND s.marketing_overall_total_score IS NOT NULL
+            ORDER BY ((s.marketing_overall_total_score + s.performance_score) / 2) DESC
+            LIMIT :top_n
+        """), {"platform": platform, "top_n": top_n}).fetchall()
+
+    return [r[0] for r in rows]
+
+
+@st.cache_data(ttl=3600)
 def get_benchmark() -> dict:
     """Return benchmark averages mapped to the same short keys used in platform data."""
     engine = get_engine()

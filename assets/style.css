@@ -3,7 +3,7 @@
 
 /* ── Global font ─────────────────────────────────────────── */
 [data-testid="stApp"],
-[data-testid="stApp"] * {
+[data-testid="stApp"] *:not([data-testid="stIconMaterial"]) {
     font-family: 'DM Sans', -apple-system, sans-serif;
 }
 
