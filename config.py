@@ -28,3 +28,9 @@ AI_SYSTEM_PROMPT = (
 )
 
 TOP_N = 50
+
+# Comparison modes:
+#   Top 50 — top N brands (by LVI score) from SOCi and the competitor
+#   All    — every qualifying brand from SOCi and the competitor
+#   Match  — top N SOCi brands where N = the competitor's total brand count
+COMPARISON_MODES = ["Top 50", "All", "Match"]

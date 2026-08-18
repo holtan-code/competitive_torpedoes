@@ -1,9 +1,10 @@
 """Competitive Torpedoes - Header and platform selector."""
 import streamlit as st
-from config import PLATFORMS
+from config import PLATFORMS, COMPARISON_MODES
 
 
-def render_header(platform_data: dict) -> str:
+def render_header() -> tuple:
+    """Render the header and controls; returns (selected_competitor, comparison_mode)."""
     # ── Top header bar ────────────────────────────────────────────────────────
     st.markdown("""
     <div style="background:#fff;border-bottom:1px solid #e0e0e8;
@@ -22,7 +23,7 @@ def render_header(platform_data: dict) -> str:
             </h1>
         </div>
         <p style="color:#888;font-size:14px;margin:0 0 0 54px;">
-            2026 Brand Performance Dashboard &mdash; Top 50 by LVI Score
+            2026 Brand Performance Dashboard &mdash; Ranked by LVI Score
         </p>
     </div>
     """, unsafe_allow_html=True)
@@ -31,7 +32,7 @@ def render_header(platform_data: dict) -> str:
 
     # ── Controls card ─────────────────────────────────────────────────────────
     with st.container(border=True):
-        col_label, col_drop = st.columns([2, 6])
+        col_label, col_drop, col_mode_label, col_mode = st.columns([1.6, 4.4, 1.2, 1.8])
 
         with col_label:
             st.markdown("""
@@ -60,4 +61,26 @@ def render_header(platform_data: dict) -> str:
                     key="competitor_selector",
                 )
 
-    return selected
+        with col_mode_label:
+            st.markdown("""
+            <div style="display:flex;align-items:center;justify-content:flex-end;
+                        min-height:40px;padding:4px 0;">
+                <span style="font-size:14px;font-weight:600;color:#1a1a2e;
+                             white-space:nowrap;">Compare</span>
+            </div>
+            """, unsafe_allow_html=True)
+
+        with col_mode:
+            mode = st.selectbox(
+                "comparison mode",
+                COMPARISON_MODES,
+                label_visibility="collapsed",
+                key="comparison_mode",
+                help=(
+                    "Top 50: top 50 brands by LVI score from each platform. "
+                    "All: every qualifying brand from both platforms. "
+                    "Match: top N SOCi brands, where N is the competitor's brand count."
+                ),
+            )
+
+    return selected, mode

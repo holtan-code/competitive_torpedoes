@@ -1,0 +1,8 @@
+platform,pool_before_filter,pool_after_filter,top50_size_before,top50_size_after,brands_dropped_count,brands_dropped,new_entrants
+SOCi,477,426,50,50,1,Cheba Hut (NULL),Celebree School
+Yext,459,408,50,50,2,Chop't Creative Salad (NULL); Blaze Pizza (NULL),The Little Gym; HomeTeam Pest Defense
+Birdeye,76,72,50,50,4,Blaze Pizza (NULL); Mendocino Farms (NULL); Mr. Pickles (NULL); Dave's Hot Chicken (NULL),Restoration 1; Homestead Funding; Mission Rock Residential; Tom James Company
+Chatmeter,95,87,50,50,6,Jason's Deli (NULL); Mr Jim's Pizza (NULL); Commerce Bank (Y); Dog Haus (NULL); Costa Vida (NULL); Farmer Boys (NULL),Enterprise Bank & Trust; O'Charley's; Kate Spade; Behavioral Health Group; Eagle Rock Advisors; Sanford Health Care
+Reputation.com,100,100,50,50,0,,
+Uberall,49,40,49,40,9,Piada Italian Street Food (NULL); Bonchon (NULL); Costa Vida (NULL); Peter Piper Pizza (NULL); Farmer Boys (NULL); Toppers Pizza (NULL); Baja Fresh (NULL); Hot Head Burritos (NULL); Cicis Pizza (NULL),
+RioSEO,9,9,9,9,0,,

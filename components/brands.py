@@ -1,13 +1,14 @@
 """Competitive Torpedoes - Brands included section."""
 import streamlit as st
 from db import get_platform_brands
+from config import TOP_N
 from components import section_header
 
 _COLUMNS = 3
 
 
-def render(comp_name: str):
-    brands = get_platform_brands(comp_name)
+def render(comp_name: str, top_n=TOP_N):
+    brands = get_platform_brands(comp_name, top_n)
 
     section_header(
         "\U0001F3F7️",

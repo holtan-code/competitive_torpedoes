@@ -33,21 +33,27 @@ _PCT_100 = frozenset({
 
 @st.cache_data(ttl=3600)
 def get_platform_data(platform: str, top_n: int = TOP_N) -> dict:
+    """Aggregate metrics for a platform. top_n=None includes all qualifying brands."""
     engine = get_engine()
     if engine is None:
         return _fallback_data().get(platform, {})
 
     with engine.connect() as conn:
-        # Step 1 — top N brand IDs by LVI score
-        top_rows = conn.execute(text("""
+        # Step 1 — top N brand IDs by LVI score (all brands when top_n is None)
+        limit_clause = "LIMIT :top_n" if top_n else ""
+        params = {"platform": platform}
+        if top_n:
+            params["top_n"] = top_n
+        top_rows = conn.execute(text(f"""
             SELECT s.brand_id
             FROM lvi_2026_brand_scores s
             JOIN lvi_2026_brand_platform_list p ON s.brand_id = p.brandid
             WHERE (p.platform_a = :platform OR p.platform_b = :platform)
               AND s.marketing_overall_total_score IS NOT NULL
+              AND s.custom_audit = 'N'
             ORDER BY ((s.marketing_overall_total_score + s.performance_score) / 2) DESC
-            LIMIT :top_n
-        """), {"platform": platform, "top_n": top_n}).fetchall()
+            {limit_clause}
+        """), params).fetchall()
 
         if not top_rows:
             return {}
@@ -61,6 +67,7 @@ def get_platform_data(platform: str, top_n: int = TOP_N) -> dict:
             JOIN lvi_2026_brand_platform_list p ON s.brand_id = p.brandid
             WHERE (p.platform_a = :platform OR p.platform_b = :platform)
               AND s.marketing_overall_total_score IS NOT NULL
+              AND s.custom_audit = 'N'
         """), {"platform": platform}).scalar()
 
         # Step 2 — granular metric averages for those brand IDs
@@ -129,21 +136,30 @@ def get_platform_data(platform: str, top_n: int = TOP_N) -> dict:
 
 @st.cache_data(ttl=3600)
 def get_platform_brands(platform: str, top_n: int = TOP_N) -> list:
-    """Return the top-N brand names (by LVI score) used in this platform's averages."""
+    """Return the top-N brand names (by LVI score) used in this platform's averages.
+
+    top_n=None returns all qualifying brands.
+    """
     engine = get_engine()
     if engine is None:
         return []
 
+    limit_clause = "LIMIT :top_n" if top_n else ""
+    params = {"platform": platform}
+    if top_n:
+        params["top_n"] = top_n
+
     with engine.connect() as conn:
-        rows = conn.execute(text("""
+        rows = conn.execute(text(f"""
             SELECT s.brandname
             FROM lvi_2026_brand_scores s
             JOIN lvi_2026_brand_platform_list p ON s.brand_id = p.brandid
             WHERE (p.platform_a = :platform OR p.platform_b = :platform)
               AND s.marketing_overall_total_score IS NOT NULL
+              AND s.custom_audit = 'N'
             ORDER BY ((s.marketing_overall_total_score + s.performance_score) / 2) DESC
-            LIMIT :top_n
-        """), {"platform": platform, "top_n": top_n}).fetchall()
+            {limit_clause}
+        """), params).fetchall()
 
     return [r[0] for r in rows]
 
